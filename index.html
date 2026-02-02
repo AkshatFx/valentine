@@ -2,297 +2,209 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Valentine 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will You Be My Valentine</title>
+
 <style>
-  * {
-    box-sizing: border-box;
-  }
+* {
+  box-sizing: border-box;
+}
 
-  body {
-    margin: 0;
-    height: 100vh;
-    overflow: hidden;
-    background: linear-gradient(180deg, #ffd1dc, #ffc0cb);
-    font-family: 'Segoe UI', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+html, body {
+  width: 100%;
+  height: 100%;
+}
 
-  /* Floating hearts */
-  .heart {
-    position: absolute;
-    bottom: -20px;
-    font-size: 18px;
-    color: rgba(255, 105, 180, 0.4);
-    animation: floatUp linear infinite;
-  }
+body {
+  margin: 0;
+  overflow: hidden;
+  background: linear-gradient(180deg, #ffd6e3, #ffb3c7);
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  @keyframes floatUp {
-    from {
-      transform: translateY(0);
-      opacity: 1;
-    }
-    to {
-      transform: translateY(-110vh);
-      opacity: 0;
-    }
-  }
+/* Floating hearts */
+.heart {
+  position: absolute;
+  bottom: -40px;
+  font-size: 22px;
+  color: rgba(255, 70, 150, 0.65);
+  animation: floatUp linear infinite;
+  z-index: 1;
+  pointer-events: none;
+}
 
-  .card {
-    background: rgba(255, 255, 255, 0.9);
-    padding: 45px;
-    border-radius: 22px;
-    text-align: center;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-    z-index: 2;
+@keyframes floatUp {
+  from {
+    transform: translateY(0);
+    opacity: 0.9;
   }
+  to {
+    transform: translateY(-120vh);
+    opacity: 0;
+  }
+}
 
-  h1 {
-    margin: 0;
-    color: #b1005d;
-    font-size: 34px;
-  }
+/* Card */
+.card {
+  position: relative;
+  z-index: 5;
+  background: rgba(255, 255, 255, 0.92);
+  padding: 45px 40px;
+  border-radius: 24px;
+  text-align: center;
+  width: 360px;
+  max-width: 90vw;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.18);
+}
 
-  p {
-    margin: 12px 0 30px;
-    color: #555;
-    font-size: 15px;
-  }
+h1 {
+  margin: 0;
+  color: #b1005d;
+  font-size: 32px;
+}
 
-  .buttons {
-    position: relative;
-  }
+.subtitle {
+  margin: 14px 0 30px;
+  color: #555;
+  font-size: 15px;
+}
 
-  button {
-    padding: 12px 34px;
-    font-size: 17px;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-  }
+.buttons {
+  position: relative;
+  height: 50px;
+}
 
-  #yes {
-    background: #ff2f92;
-    color: white;
-    box-shadow: 0 8px 20px rgba(255,47,146,0.4);
-  }
+button {
+  padding: 12px 34px;
+  font-size: 17px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+}
 
-  #no {
-    background: #eee;
-    color: #333;
-    position: absolute;
-    right: -90px;
-    top: 0;
+#yes {
+  background: #ff2f92;
+  color: white;
+  box-shadow: 0 8px 20px rgba(255,47,146,0.4);
+}
+
+#no {
+  background: #eee;
+  color: #333;
+  position: absolute;
+  right: -85px;
+  top: 0;
+}
+
+.hint {
+  font-size: 12px;
+  margin-top: 25px;
+  color: #777;
+}
+
+/* Confetti */
+.confetti {
+  position: fixed;
+  width: 8px;
+  height: 14px;
+  background: red;
+  top: -20px;
+  animation: fall linear forwards;
+  z-index: 10;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh) rotate(720deg);
+    opacity: 0;
   }
+}
 </style>
 </head>
+
 <body>
 
 <div class="card">
-  <h1>Will you be my<br>Valentine? 💕</h1>
-  <p>Choose wisely… 💞</p>
+  <h1>Will you be my Valentine</h1>
+  <div class="subtitle">Choose wisely</div>
 
   <div class="buttons">
-    <button id="yes">Yes ✨</button>
-    <button id="no">No 😳</button>
+    <button id="yes">Yes</button>
+    <button id="no">No</button>
   </div>
 
-  <p style="font-size:12px;margin-top:25px;">
-    Hint: The “No” button is a bit shy… 😌
-  </p>
+  <div class="hint">Hint: The No button is shy</div>
 </div>
 
 <script>
-  /* Shy No button */
-  const noBtn = document.getElementById("no");
-  noBtn.addEventListener("mouseover", () => {
-    const x = Math.random() * (window.innerWidth - 100);
-    const y = Math.random() * (window.innerHeight - 100);
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
-  });
+/* ===== No button movement (desktop + mobile) ===== */
+const noBtn = document.getElementById("no");
 
-  /* Yes click */
-  document.getElementById("yes").onclick = () => {
+function moveNoButton() {
+  const x = Math.random() * (window.innerWidth - 120);
+  const y = Math.random() * (window.innerHeight - 120);
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+}
+
+noBtn.addEventListener("mouseover", moveNoButton);
+noBtn.addEventListener("touchstart", moveNoButton);
+
+/* ===== Yes click with confetti ===== */
+document.getElementById("yes").addEventListener("click", () => {
+  launchConfetti();
+
+  setTimeout(() => {
     document.body.innerHTML = `
       <div style="
+        width:100vw;
         height:100vh;
         display:flex;
         justify-content:center;
         align-items:center;
         background:#ff2f92;
         color:white;
-        font-family:Segoe UI;
+        font-family:'Segoe UI',sans-serif;
         text-align:center;">
-        <h1>Yay! 💖<br>You’re my Valentine 😍</h1>
+        <h1>You are my Valentine</h1>
       </div>
     `;
-  };
+  }, 800);
+});
 
-  /* Floating hearts generator */
-  function createHeart() {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerHTML = "♡";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animationDuration = (4 + Math.random() * 4) + "s";
-    heart.style.fontSize = (14 + Math.random() * 20) + "px";
-    document.body.appendChild(heart);
+/* ===== Confetti generator ===== */
+function launchConfetti() {
+  for (let i = 0; i < 120; i++) {
+    const confetti = document.createElement("div");
+    confetti.className = "confetti";
+    confetti.style.left = Math.random() * 100 + "vw";
+    confetti.style.background =
+      `hsl(${Math.random() * 360}, 90%, 60%)`;
+    confetti.style.animationDuration = (2 + Math.random() * 2) + "s";
+    document.body.appendChild(confetti);
 
-    setTimeout(() => heart.remove(), 8000);
+    setTimeout(() => confetti.remove(), 4000);
   }
+}
 
-  setInterval(createHeart, 300);
-</script>
+/* ===== Floating hearts ===== */
+const hearts = ["♡", "♥"];
 
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Valentine 💖</title>
-<style>
-  * {
-    box-sizing: border-box;
-  }
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = (16 + Math.random() * 22) + "px";
+  heart.style.animationDuration = (4 + Math.random() * 4) + "s";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 9000);
+}
 
-  body {
-    margin: 0;
-    height: 100vh;
-    overflow: hidden;
-    background: linear-gradient(180deg, #ffd1dc, #ffc0cb);
-    font-family: 'Segoe UI', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  /* Floating hearts */
-  .heart {
-    position: absolute;
-    bottom: -20px;
-    font-size: 18px;
-    color: rgba(255, 105, 180, 0.4);
-    animation: floatUp linear infinite;
-  }
-
-  @keyframes floatUp {
-    from {
-      transform: translateY(0);
-      opacity: 1;
-    }
-    to {
-      transform: translateY(-110vh);
-      opacity: 0;
-    }
-  }
-
-  .card {
-    background: rgba(255, 255, 255, 0.9);
-    padding: 45px;
-    border-radius: 22px;
-    text-align: center;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-    z-index: 2;
-  }
-
-  h1 {
-    margin: 0;
-    color: #b1005d;
-    font-size: 34px;
-  }
-
-  p {
-    margin: 12px 0 30px;
-    color: #555;
-    font-size: 15px;
-  }
-
-  .buttons {
-    position: relative;
-  }
-
-  button {
-    padding: 12px 34px;
-    font-size: 17px;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-  }
-
-  #yes {
-    background: #ff2f92;
-    color: white;
-    box-shadow: 0 8px 20px rgba(255,47,146,0.4);
-  }
-
-  #no {
-    background: #eee;
-    color: #333;
-    position: absolute;
-    right: -90px;
-    top: 0;
-  }
-</style>
-</head>
-<body>
-
-<div class="card">
-  <h1>Will you be my<br>Valentine? 💕</h1>
-  <p>Choose wisely… 💞</p>
-
-  <div class="buttons">
-    <button id="yes">Yes ✨</button>
-    <button id="no">No 😳</button>
-  </div>
-
-  <p style="font-size:12px;margin-top:25px;">
-    Hint: The “No” button is a bit shy… 😌
-  </p>
-</div>
-
-<script>
-  /* Shy No button */
-  const noBtn = document.getElementById("no");
-  noBtn.addEventListener("mouseover", () => {
-    const x = Math.random() * (window.innerWidth - 100);
-    const y = Math.random() * (window.innerHeight - 100);
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
-  });
-
-  /* Yes click */
-  document.getElementById("yes").onclick = () => {
-    document.body.innerHTML = `
-      <div style="
-        height:100vh;
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        background:#ff2f92;
-        color:white;
-        font-family:Segoe UI;
-        text-align:center;">
-        <h1>Yay! 💖<br>You’re my Valentine 😍</h1>
-      </div>
-    `;
-  };
-
-  /* Floating hearts generator */
-  function createHeart() {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerHTML = "♡";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animationDuration = (4 + Math.random() * 4) + "s";
-    heart.style.fontSize = (14 + Math.random() * 20) + "px";
-    document.body.appendChild(heart);
-
-    setTimeout(() => heart.remove(), 8000);
-  }
-
-  setInterval(createHeart, 300);
+setInterval(createHeart, 300);
 </script>
 
 </body>
